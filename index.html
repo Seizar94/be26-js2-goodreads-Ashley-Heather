@@ -1,13 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>goodreads-task</title>
-  </head>
-  <body>
-    <div id="app"></div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="#" type="image/x-icon">
+    <link rel="stylesheet" href="src/style.css">
     <script type="module" src="/src/main.js"></script>
-  </body>
+    <title>Document</title>
+</head>
+<body>
+    <div id="diceWrapper"></div>
+    <form id="bookForm">
+        <input type="text" id="title" name="title" placeholder="Title" required>
+        <input type="text" id="author" name="author" placeholder="Author" required>
+        <button class="test">Submit</button>
+    </form>
+    <div id="bookWrapper">
+
+    </div>
+</body>
 </html>
