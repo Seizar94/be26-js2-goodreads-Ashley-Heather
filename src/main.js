@@ -5,16 +5,12 @@ import { getBookCard } from "./createBookCard.js"
 const form = document.querySelector("form")
 const wrapper = document.querySelector("#bookWrapper")
 
+// Loads all books in database on page load
 getAllBooks()
     .then(renderAllBooks)
     .catch(error => console.log(error))
 
-
-
-
-
-
-
+// Submit button to add new book to the database
 form.addEventListener("submit", async event =>{
     event.preventDefault()
 
@@ -22,7 +18,7 @@ form.addEventListener("submit", async event =>{
     const newBookAuthor = form.querySelector("#author").value    
     try{
         const data = await addBook(newBookAuthor, newBookTitle)
-        const book = new Book(newBookAuthor, newBookTitle, "", false)
+        const book = new Book(newBookAuthor, newBookTitle, "", false, data.name)
         const card = getBookCard(book)
         wrapper.append(card)
         form.querySelector("#title").value = ""
@@ -33,13 +29,7 @@ form.addEventListener("submit", async event =>{
     }
 })
 
-
-
-
-
-
-
-
+// function to create and display each book in a card
 function renderAllBooks(books) {
     for(const id in books){
         const book = new Book(books[id].author, books[id].title, books[id].score, books[id].isRead, id)

@@ -1,5 +1,5 @@
 export function getBookCard(book) {
-    console.log(book)
+
     // Creation of the book cards elements.
     const cardDiv = document.createElement("div")
     const bookTitle = document.createElement("h2")
@@ -66,12 +66,6 @@ export function getBookCard(book) {
         } else submitScore.disabled = true
     })
 
-
-
-
-
-
-    // Buttons - include above code to toggle page visuals to align with database info.
     // Score submit button functionality
     submitScore.addEventListener("click", async () => {
         try {
@@ -82,11 +76,12 @@ export function getBookCard(book) {
             isScored.innerText = `You have rated this book: ${selectedIndex} out of 5!`
         }
         catch(error) {
-            console.log(error)
+            throw error
         }
     })
 
-    // This function creates a key that allows the ternary code below to work correctly on all book cards regardless of current state
+// This function creates a key that allows the ternary code below
+// to work correctly on all book cards regardless of current state
 function toggleKeyFunction() {
     let toggleKey = true
     if (book.isRead) {
@@ -97,7 +92,8 @@ function toggleKeyFunction() {
         return toggleKey
     }
 }
-    // toggles the book card information
+
+    // toggles the book card information using ternary operators
     finishedBook.addEventListener("click", async () => {
         try {
             await book.toggleIsRead()
