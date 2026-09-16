@@ -1,6 +1,11 @@
 html {
-    max-width: 1300px;
+    max-width: 1400px;
     margin: auto;
+}
+
+#bookForm {
+  display: flex;
+  justify-content: center;
 }
 
 #bookwrapper {
@@ -10,12 +15,12 @@ html {
 }
 
 .bookCard {
-    max-width: 16.5vw;
+    width: 15rem;
+    height: 20rem;
     display: flex;
     float: left;
     justify-content: space-around;
     flex-direction: column;
-    /* align-items: center; */
     border: solid, 1px, black;
     border-radius: 8px;
     padding: 1rem 2rem 1rem 2rem;

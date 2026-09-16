@@ -45,7 +45,6 @@ export class Book {
             if (!response.ok) {
                 throw new Error ("Removal failed")
             }
-            console.log(`This is the URL being used: ${baseURL}/${this.#id}.json`)
             const data = await response.json();
             return "Book Removed!"
         }
