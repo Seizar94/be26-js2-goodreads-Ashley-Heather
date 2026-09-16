@@ -25,6 +25,8 @@ form.addEventListener("submit", async event =>{
         const book = new Book(newBookAuthor, newBookTitle, "", false)
         const card = getBookCard(book)
         wrapper.append(card)
+        form.querySelector("#title").value = ""
+        form.querySelector("#author").value = ""
     }
     catch(error){
         console.log(error)
