@@ -19,7 +19,7 @@ export async function addBook(newAuthor, newTitle){
     try{
         const option = {
             method: "POST",
-            body: JSON.stringify({author: newAuthor, title: newTitle, isRead: false, score: 0}),
+            body: JSON.stringify({author: newAuthor, title: newTitle, isRead: false, score: "", timesRead: 0, readStarted: false}),
             headers: {
                 "Content-type": "application/json"
             }
