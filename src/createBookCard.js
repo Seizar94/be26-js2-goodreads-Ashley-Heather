@@ -67,7 +67,7 @@ export function getBookCard(book) {
             isReadText.innerText = "You are currently reading this book"
             startRead.classList.add("hidden")
         }
-        if (book.getTimesRead() > 0) {
+        if (book.getTimesRead() > 0 && book.getReadStarted() === false) {
             isReadText.innerText = `You have read this book ${book.getTimesRead()} times`
         }
         if (book.getScore() > 0) {
