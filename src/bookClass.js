@@ -18,7 +18,6 @@ export class Book {
         this.#readStarted = readStarted
     }
 
-    // Score selection and submission method
     async scoreBook(selectedIndex) {
         const options = {
             method: "PATCH",
@@ -44,7 +43,6 @@ export class Book {
         }
     }
 
-    // Book removal method
     async remove() {
         const options = {
             method: "DELETE"
@@ -62,7 +60,6 @@ export class Book {
             }
     }
     
-    // Toggle isRead method
     async toggleIsRead() {
             const options = {
             method: "PATCH",
@@ -89,7 +86,6 @@ export class Book {
         }
     }
 
-    // Toggle readStarted method
     async toggleReadStarted() {
             const options = {
             method: "PATCH",
@@ -116,8 +112,6 @@ export class Book {
         }
     }
 
-
-    // increment timesRead method
     async increaseTimesRead(timesRead) {
         const options = {
             method: "PATCH",

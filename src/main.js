@@ -1,9 +1,6 @@
 import { getAllBooks, addBook} from "./firebaseRequest.js"
 import { Book } from "./bookClass.js"
 import { getBookCard } from "./createBookCard.js"
-// import { getBookCard } from "./testCode.js"
-
-
 
 const form = document.querySelector("form")
 const wrapper = document.querySelector("#bookWrapper")

@@ -1,4 +1,3 @@
-// Page creates each book card and the functionality of the buttons contained within.
 export function getBookCard(book) {
 
     const cardDiv = document.createElement("div")
