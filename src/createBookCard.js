@@ -4,161 +4,162 @@ export function getBookCard(book) {
     const bookTitle = document.createElement("h2")
     const bookAuthor = document.createElement("p")
     const isReadText = document.createElement("p")
-    const isScored = document.createElement("p")
+    const isScoredText = document.createElement("p")
     const scoreSelect = document.createElement("select")
-    const submitScore = document.createElement("button")
-    const removeBook = document.createElement("button")
-    const startRead = document.createElement("button")
-    const isReadToggle = document.createElement("button")
+    const submitScoreBtn = document.createElement("button")
+    const removeBookBtn = document.createElement("button")
+    const startReadBtn = document.createElement("button")
+    const isReadToggleBtn = document.createElement("button")
 
-    elementSettingsOnLoad()
-    submitButtonDisabledStatus()
-    startReadButton()
-    isReadToggleButton()
-    submitScoreButton()
-    removeBookButton()
+    elementSettingsOnLoad(book, cardDiv, bookTitle, bookAuthor, isReadText, isScoredText, scoreSelect, submitScoreBtn, startReadBtn, isReadToggleBtn, removeBookBtn)
+    submitButtonDisabledStatus(book, scoreSelect, submitScoreBtn)
+    startReadButton(book, isReadText, startReadBtn)
+    isReadToggleButton(book, isReadText, isScoredText, scoreSelect, submitScoreBtn, startReadBtn, isReadToggleBtn, toggleIsReadKey)
+    submitScoreButton(book, isReadText, isScoredText, scoreSelect, submitScoreBtn)
+    removeBookButton(book, cardDiv, removeBookBtn)
 
-    function elementSettingsOnLoad() {
-        cardDiv.classList.add("bookCard")
-        cardDiv.append(bookTitle, bookAuthor, isReadText, isScored, scoreSelect, submitScore, startRead, isReadToggle, removeBook)
-        bookTitle.innerText = book.getTitle()
-        bookAuthor.innerText = book.getAuthor()
-
-        // Score selection options
-        const PH = new Option("", "1")  
-        const op1 = new Option("1", "2")  
-        const op2 = new Option("2", "3")
-        const op3 = new Option("3", "4") 
-        const op4 = new Option("4", "5")   
-        const op5 = new Option("5", "6")
-        scoreSelect.appendChild(PH)
-        scoreSelect.appendChild(op1)
-        scoreSelect.appendChild(op2)
-        scoreSelect.appendChild(op3)
-        scoreSelect.appendChild(op4)
-        scoreSelect.appendChild(op5)
-
-        isScored.innerText = "Please rate this book"
-        submitScore.innerText = "Submit score"
-        startRead.innerText = "Start Read"
-        startRead.classList.add("cardButton")
-        isReadToggle.classList.add("cardButton")
-        removeBook.innerText = "Remove book"
-        removeBook.classList.add("cardButton")
-
-        // Element visibility. Run on page load.
-        if (!book.getIsRead()) {
-            isReadText.innerText = "This book is unread"
-            isScored.classList.add("hidden")
-            scoreSelect.classList.add("hidden")
-            submitScore.classList.add("hidden")
-            isReadToggle.innerText = "Finish Read"
-        } else if (book.getIsRead()) {
-            isReadText.innerText = "You have finished reading"
-            isScored.classList.remove("hidden")
-            scoreSelect.classList.remove("hidden")
-            submitScore.classList.remove("hidden")
-            submitScore.classList.add("disable")
-            startRead.classList.add("hidden")
-            isReadToggle.innerText = "Start New Read"
-        }
-        if (book.getReadStarted()) {
-            isReadText.innerText = "You are currently reading this book"
-            startRead.classList.add("hidden")
-        }
-        if (book.getTimesRead() > 0 && book.getReadStarted() === false) {
-            isReadText.innerText = `You have read this book ${book.getTimesRead()} times`
-        }
-        if (book.getScore() > 0) {
-            scoreSelect.classList.add("hidden")
-            submitScore.classList.add("hidden")
-            isScored.innerText = `You have rated this book: ${book.getScore()} out of 5!`
-        }
-    }
-
-    function submitButtonDisabledStatus() {
-        submitScore.disabled = true
-        scoreSelect.addEventListener("change", () => {
-            if (scoreSelect.selectedIndex > 0) {
-                submitScore.disabled = false
-            } else submitScore.disabled = true
-        })
-    }
-
-    function submitScoreButton() {
-        submitScore.addEventListener("click", async () => {
-            try {
-                const selectedIndex = scoreSelect.selectedIndex
-                await book.scoreBook(selectedIndex)
-                scoreSelect.classList.add("hidden")
-                submitScore.classList.add("hidden")
-                isReadText.innerText = `You have read this book ${book.getTimesRead()} times`
-                isScored.innerText = `You have rated this book: ${selectedIndex} out of 5!`
-            }
-            catch(error) {
-                throw error
-            }
-        })
-    }
-
-    function startReadButton() {
-        startRead.addEventListener("click", async () => {
-            try {
-                await book.toggleReadStarted()
-            isReadText.innerText = "You are currently reading this book"
-            startRead.classList.add("hidden")
-            }
-            catch (error) {
-                throw error
-            }
-        })
-    }
-
-    function toggleKeyFunction() {
-        let toggleKey = book.getIsRead()
-        toggleKey = !toggleKey
-        return toggleKey
-    }
-    function isReadToggleButton() {
-        isReadToggle.addEventListener("click", async () => {
-            try {
-                let timesRead = book.getTimesRead()
-                await book.toggleIsRead()
-                isScored.classList = toggleKeyFunction() ? "hidden" : ""
-                scoreSelect.classList = toggleKeyFunction() ? "hidden" : ""
-                submitScore.classList = toggleKeyFunction() ? "hidden" : ""
-                startRead.classList = toggleKeyFunction() ? "" : "hidden"
-                isReadToggle.innerText = toggleKeyFunction() ? "Finish Read" : "Start New Read"
-                isReadText.innerText = toggleKeyFunction() ? `You have read this book ${book.getTimesRead()} times` : "You have finished reading"
-                
-                // Resets the score when starting a new read of a previously rated book
-                scoreSelect.selectedIndex = undefined
-                const selectedIndex = ""
-                isScored.innerText = "Please rate this book"
-                submitScore.disabled = true
-                await book.scoreBook(selectedIndex)
-
-                if (!toggleKeyFunction()) {
-                    await book.increaseTimesRead(timesRead)
-                }
-            }
-            catch (error) {
-                throw error
-            }
-        }) 
-    }
-
-    function removeBookButton() {
-        removeBook.addEventListener("click", async () => {
-            try {
-                await book.remove()
-                cardDiv.remove()
-            }
-            catch (error) {
-                throw error
-            }
-        })
-    }
-    
     return cardDiv
+}
+
+function elementSettingsOnLoad(book, cardDiv, bookTitle, bookAuthor, isReadText, isScoredText, scoreSelect, submitScoreBtn, startReadBtn, isReadToggleBtn, removeBookBtn) {
+    cardDiv.classList.add("bookCard")
+    cardDiv.append(bookTitle, bookAuthor, isReadText, isScoredText, scoreSelect, submitScoreBtn, startReadBtn, isReadToggleBtn, removeBookBtn)
+    bookTitle.innerText = book.getTitle()
+    bookAuthor.innerText = book.getAuthor()
+
+    // Score selection options
+    const blankOption = new Option("", "1")  
+    const option1 = new Option("1", "2")  
+    const option2 = new Option("2", "3")
+    const option3 = new Option("3", "4") 
+    const option4 = new Option("4", "5")   
+    const option5 = new Option("5", "6")
+    scoreSelect.appendChild(blankOption)
+    scoreSelect.appendChild(option1)
+    scoreSelect.appendChild(option2)
+    scoreSelect.appendChild(option3)
+    scoreSelect.appendChild(option4)
+    scoreSelect.appendChild(option5)
+
+    isScoredText.innerText = "Please rate this book"
+    submitScoreBtn.innerText = "Submit score"
+    startReadBtn.innerText = "Start Read"
+    startReadBtn.classList.add("cardButton")
+    isReadToggleBtn.classList.add("cardButton")
+    removeBookBtn.innerText = "Remove book"
+    removeBookBtn.classList.add("cardButton")
+
+    // Element visibility. Run on page load.
+    if (!book.getIsRead()) {
+        isReadText.innerText = "This book is unread"
+        isScoredText.classList.add("hidden")
+        scoreSelect.classList.add("hidden")
+        submitScoreBtn.classList.add("hidden")
+        isReadToggleBtn.innerText = "Finish Read"
+    } else if (book.getIsRead()) {
+        isReadText.innerText = "You have finished reading"
+        isScoredText.classList.remove("hidden")
+        scoreSelect.classList.remove("hidden")
+        submitScoreBtn.classList.remove("hidden")
+        submitScoreBtn.classList.add("disable")
+        startReadBtn.classList.add("hidden")
+        isReadToggleBtn.innerText = "Start New Read"
+    }
+    if (book.getReadStarted()) {
+        isReadText.innerText = "You are currently reading this book"
+        startReadBtn.classList.add("hidden")
+    }
+    if (book.getTimesRead() > 0 && book.getReadStarted() === false) {
+        isReadText.innerText = `You have read this book ${book.getTimesRead()} times`
+    }
+    if (book.getScore() > 0) {
+        scoreSelect.classList.add("hidden")
+        submitScoreBtn.classList.add("hidden")
+        isScoredText.innerText = `You have rated this book: ${book.getScore()} out of 5!`
+    }
+}
+
+function submitButtonDisabledStatus(book, scoreSelect, submitScoreBtn) {
+    submitScoreBtn.disabled = true
+    scoreSelect.addEventListener("change", () => {
+        if (scoreSelect.selectedIndex > 0) {
+            submitScoreBtn.disabled = false
+        } else submitScoreBtn.disabled = true
+    })
+}
+
+function submitScoreButton(book, isReadText, isScoredText, scoreSelect, submitScoreBtn) {
+    submitScoreBtn.addEventListener("click", async () => {
+        try {
+            const selectedIndex = scoreSelect.selectedIndex
+            await book.scoreBook(selectedIndex)
+            scoreSelect.classList.add("hidden")
+            submitScoreBtn.classList.add("hidden")
+            isReadText.innerText = `You have read this book ${book.getTimesRead()} times`
+            isScoredText.innerText = `You have rated this book: ${selectedIndex} out of 5!`
+        }
+        catch(error) {
+            throw error
+        }
+    })
+}
+
+function startReadButton(book, isReadText, startReadBtn) {
+    startReadBtn.addEventListener("click", async () => {
+        try {
+            await book.toggleReadStarted()
+        isReadText.innerText = "You are currently reading this book"
+        startReadBtn.classList.add("hidden")
+        }
+        catch (error) {
+            throw error
+        }
+    })
+}
+
+function toggleIsReadKey(book) {
+    let toggleIsReadKey = book.getIsRead()
+    toggleIsReadKey = !toggleIsReadKey
+    return toggleIsReadKey
+}
+
+function isReadToggleButton(book, isReadText, isScoredText, scoreSelect, submitScoreBtn, startReadBtn, isReadToggleBtn, toggleIsReadKey) {
+    isReadToggleBtn.addEventListener("click", async () => {
+        try {
+            let timesRead = book.getTimesRead()
+            await book.toggleIsRead()
+            isScoredText.classList = toggleIsReadKey(book) ? "hidden" : ""
+            scoreSelect.classList = toggleIsReadKey(book) ? "hidden" : ""
+            submitScoreBtn.classList = toggleIsReadKey(book) ? "hidden" : ""
+            startReadBtn.classList = toggleIsReadKey(book) ? "" : "hidden"
+            isReadToggleBtn.innerText = toggleIsReadKey(book) ? "Finish Read" : "Start New Read"
+            isReadText.innerText = toggleIsReadKey(book) ? `You have read this book ${book.getTimesRead()} times` : "You have finished reading"
+            
+            // Resets the score when starting a new read of a previously rated book
+            scoreSelect.selectedIndex = undefined
+            const selectedIndex = ""
+            isScoredText.innerText = "Please rate this book"
+            submitScoreBtn.disabled = true
+            await book.scoreBook(selectedIndex)
+
+            if (!toggleIsReadKey(book)) {
+                await book.increaseTimesRead(timesRead)
+            }
+        }
+        catch (error) {
+            throw error
+        }
+    }) 
+}
+
+function removeBookButton(book, cardDiv, removeBookBtn) {
+    removeBookBtn.addEventListener("click", async () => {
+        try {
+            await book.remove()
+            cardDiv.remove()
+        }
+        catch (error) {
+            throw error
+        }
+    })
 }
