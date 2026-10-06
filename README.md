@@ -1,5 +1,6 @@
 This app uses firebase realtime database - https://firebase.google.com/docs/database  
 deployed page using netlify - https://be26-js2-goodreads.netlify.app  
+to see the page type: "npm run dev" in a CLI and then open up the URL it gives you.  
 No other third party APIs are used.
 
 The app is a basic Good Reads web page. It aims to allow users to add books to a clearly displayed list they have curated. Each book is presented in a card that presents the title, author, its read status (unread, being read, finished), what the user scored it out of 5, and how many times the book has been read. The user is also able to remove books they no longer want on their reading list.  
